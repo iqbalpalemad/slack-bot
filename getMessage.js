@@ -1,4 +1,14 @@
+const expressionEvaluator = require('math-expression-evaluator');
 module.exports = (message) => {
-    const text = message.split(">");
-    return text[1].trim();
+    message   = message.split(">")[1].trim();
+    let   result = "Please reply with some mathematical expression Eg:(1+2^2)*(1*6+3)";
+    try{
+        message = message.replace(/([^\d\.\+\-\/\*\(\)\^])/g,"");
+        result  = expressionEvaluator.eval(message);
+        result  = result.toString();
+    } 
+    catch(err){
+        
+    }
+    return result;
 }
