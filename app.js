@@ -1,21 +1,15 @@
-const { WebClient }           = require('@slack/web-api');
-const { createEventAdapter }  = require('@slack/events-api');
+const { App }                 = require('@slack/bolt');
 
-const dotenv                  = require('dotenv');
+const dotenv                  = require('dotenv').config();
 
-dotenv.config();
 
-const slackEvents             = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-const slackClient             = new WebClient(process.env.SLACK_TOKEN)
-
-slackEvents.on('app_mention',event => {
-    console.log(event);
-})
-
-slackEvents.on('error', (err) =>{
-    console.log(err);
-})
-
-slackEvents.start(process.env.SLACK_PORT).then(() => {
-    console.log("bot is runnig");
+const app = new App({
+    token: process.env.SLACK_TOKEN,
+    signingSecret: process.env.SLACK_SIGNING_SECRET
 });
+
+(async () => {
+    await app.start(process.env.SLACK_PORT || 3000);
+  
+    console.log('bot app is running!');
+  })();
