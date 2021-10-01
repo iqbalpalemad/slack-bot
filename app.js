@@ -20,6 +20,7 @@ app.event('app_mention',async ({event,say}) => {
 });
 
 (async () => {
-    await app.start(process.env.SLACK_PORT || 3000);
-    console.log('bot app is running!');
+    const port = process.env.SLACK_PORT || 3000;
+    await app.start(port);
+    console.log(`bot app is running on port ${port}`);
 })();
